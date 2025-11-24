@@ -3,15 +3,15 @@ import pickle
 from multiprocessing import Process
 from multiprocessing import Manager
 
-class SharedObject:
-    def __init__(self, data):
-        self.data = data
+class SharedObject(dict):
+    def __init__(self, remote_data):
+        self['remote'] = remote_data
 
     def get_data(self):
-        return self.data
+        return pickle.dumps(self)
 
     def set_data(self, new_data):
-        self.data = new_data
+        self['remote'] = new_data
 
 # Function to create a Manager and return a proxy for a shared object
 def create_shared_object(initial_data):
