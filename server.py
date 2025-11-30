@@ -5,13 +5,13 @@ from multiprocessing import Manager
 
 class SharedObject(dict):
     def __init__(self, remote_data):
-        self['remote'] = remote_data
+        self['remote'] = pickle.dumps(remote_data)
 
     def get_data(self):
-        return pickle.dumps(self)
+        return pickle.dumps(self.copy())
 
     def set_data(self, new_data):
-        self['remote'] = new_data
+        self['remote'] = pickle.dumps(new_data)
 
 # Function to create a Manager and return a proxy for a shared object
 def create_shared_object(initial_data):
@@ -69,11 +69,11 @@ class server(dict):
             elif command == "SET" and len(parts) > 1:
                 new_data = ' '.join(parts[1:])
                 shared_object.set_data(new_data)
-                response = "Data updated."
+                response = "Data updated.".encode()
             else:
-                response = "Invalid command."
+                response = "Invalid command.".encode()
 
-            client_socket.send(response.encode())
+            client_socket.send(response)
 
         client_socket.close()
 
