@@ -22,7 +22,7 @@ def create_shared_object(initial_data):
 ONE_TIME_PASSWORD = "secure_password"
 class server(dict):
     def __init__(self,host='127.0.0.1', port=65432):
-        initial_data = "Initial data."
+        initial_data = [1,2,3,4,5]
         _, shared_object = create_shared_object(initial_data)
         
         self['socket'] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
